@@ -3,4 +3,8 @@
   <textarea class="editable"> </textarea>
 
   <button class="logout-button" (click)="handleLogout()">Log out</button>
+  <button class="logout-button" (click)="getLatestContent()">
+    get latest content
+  </button>
+  <p>Latest Content: {{ latestContent }}</p>
 </div>

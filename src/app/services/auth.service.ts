@@ -1,10 +1,7 @@
 import { Injectable } from '@angular/core';
 import firebase from 'firebase/app';
 import { AngularFireAuth } from '@angular/fire/auth';
-import {
-  AngularFirestore,
-  AngularFirestoreDocument,
-} from '@angular/fire/firestore';
+import { AngularFirestore } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
 
 @Injectable({
@@ -12,6 +9,7 @@ import { Router } from '@angular/router';
 })
 export class AuthService {
   userLoggedIn: boolean;
+  latestContent: string;
 
   constructor(
     private router: Router,
@@ -51,5 +49,32 @@ export class AuthService {
         console.log('error', error);
         if (error.code) return error;
       });
+  }
+
+  addContent(userId: string, content: string) {
+    this.afs
+      .collection('editor-content')
+      .add({
+        userId: userId,
+        content: content,
+        created: firebase.firestore.FieldValue.serverTimestamp(),
+      })
+      .then(function (res) {
+        // console.log(res);
+      });
+  }
+
+  getLatestContent(userId: string) {
+    this.afs
+      .collection('editor-content', (ref) =>
+        ref.where('userId', '==', userId).orderBy('created', 'desc').limit(1)
+      )
+      .valueChanges()
+      .subscribe((value) => {
+        this.latestContent = JSON.stringify(value[0]['content']);
+      });
+
+    console.log('latestContent', this.latestContent);
+    return this.latestContent;
   }
 }
