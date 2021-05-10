@@ -1,3 +1,11 @@
 .container {
   margin: 4em 10%;
 }
+
+.medium-editor-element {
+  min-height: 12em;
+}
+
+.logout-button {
+  margin-top: 2em;
+}
