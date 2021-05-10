@@ -1,6 +1,6 @@
 <div class="container">
   <p>Hi, {{ name }}! Let's write something.</p>
-  <textarea class="editable"> </textarea>
+  <textarea class="editable">{{ latestContent }}</textarea>
 
   <button class="logout-button" (click)="handleLogout()">Log out</button>
   <button class="logout-button" (click)="getLatestContent()">

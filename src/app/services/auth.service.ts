@@ -64,17 +64,17 @@ export class AuthService {
       });
   }
 
-  getLatestContent(userId: string) {
-    this.afs
+  async getLatestContent(userId: string) {
+    await this.afs
       .collection('editor-content', (ref) =>
         ref.where('userId', '==', userId).orderBy('created', 'desc').limit(1)
       )
       .valueChanges()
       .subscribe((value) => {
         this.latestContent = JSON.stringify(value[0]['content']);
+        console.log('this.latestContent', this.latestContent);
       });
 
-    console.log('latestContent', this.latestContent);
-    return this.latestContent;
+    // return this.latestContent;
   }
 }
