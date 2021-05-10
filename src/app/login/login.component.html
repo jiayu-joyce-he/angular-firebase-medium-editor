@@ -1,1 +1,4 @@
-<p>login works!</p>
+<h1>Let's log in with Google!</h1>
+<mat-card *ngIf="!isLoggedIn">
+  <button (click)="loginUser()">Sign In with Google</button>
+</mat-card>
