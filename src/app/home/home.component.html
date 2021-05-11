@@ -1,10 +1,17 @@
 <div class="container">
   <p>Hi, {{ name }}! Let's write something.</p>
-  <textarea class="editable">{{ latestContent }}</textarea>
+  <ng-katex-html [html]="latestContent"
+    >This is what you've saved from last time:
+    {{ latestContent }}</ng-katex-html
+  >
+  <div>
+    <ng-katex-html [html]="latestContent" class="editable">
+      {{ latestContent }}</ng-katex-html
+    >
+  </div>
 
   <button class="logout-button" (click)="handleLogout()">Log out</button>
-  <button class="logout-button" (click)="getLatestContent()">
+  <!-- <button class="logout-button" (click)="getLatestContent()">
     get latest content
-  </button>
-  <p>Latest Content: {{ latestContent }}</p>
+  </button> -->
 </div>

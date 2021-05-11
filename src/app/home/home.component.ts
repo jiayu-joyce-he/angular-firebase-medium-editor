@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import * as MediumEditor from 'medium-editor';
 import { AngularFireAuth } from '@angular/fire/auth';
-
 import { AuthService } from '../services/auth.service';
 
 @Component({
@@ -13,32 +12,36 @@ export class HomeComponent implements OnInit {
   latestContent: string;
   name: string;
   content: string;
+  editor: MediumEditor.MediumEditor;
 
   constructor(
     private afAuth: AngularFireAuth,
     private authService: AuthService
   ) {}
 
+  ngOnChanges(): void {
+    // this.editor.setContent(this.latestContent);
+  }
+
   ngOnInit(): void {
-    const editor = new MediumEditor('.editable');
+    this.editor = new MediumEditor('.editable');
 
     const handleContentChange = () => {
-      this.content = editor.getContent();
+      this.content = this.editor.getContent();
 
       this.authService.addContent(this.content);
     };
 
     this.getLatestContent();
-    // editor.setContent(this.authService.latestContent);
+    console.log('undefined???', this.latestContent);
 
     this.afAuth.authState.subscribe((user) => {
       if (user) {
-        // this.authService.getLatestContent(user.uid);
         this.name = user.displayName.split(' ')[0];
       }
     });
 
-    editor.subscribe('editableInput', handleContentChange.bind(this));
+    this.editor.subscribe('editableInput', handleContentChange.bind(this));
   }
 
   handleLogout() {

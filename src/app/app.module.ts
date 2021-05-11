@@ -10,10 +10,10 @@ import { LoginComponent } from './login/login.component';
 
 import { MatCardModule } from '@angular/material/card';
 import { FormsModule } from '@angular/forms';
-
 import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireDatabaseModule } from '@angular/fire/database';
+import { KatexModule } from 'ng-katex';
 
 import { environment } from '../environments/environment';
 
@@ -28,6 +28,7 @@ import { environment } from '../environments/environment';
     AngularFireDatabaseModule,
     MatCardModule,
     FormsModule,
+    KatexModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

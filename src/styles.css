@@ -1,6 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 @import "~medium-editor/dist/css/medium-editor.min.css";
 @import "~medium-editor/dist/css/themes/default.min.css";
+@import "~katex/dist/katex.css";
 
 html,
 body {
