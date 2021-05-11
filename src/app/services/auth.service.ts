@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
 })
 export class AuthService {
   userLoggedIn: boolean;
-  latestContent: string;
+  userId: string;
 
   constructor(
     private router: Router,
@@ -20,6 +20,7 @@ export class AuthService {
     this.afAuth.onAuthStateChanged((user) => {
       if (user) {
         this.userLoggedIn = true;
+        this.userId = user.uid;
       } else {
         this.userLoggedIn = false;
       }
@@ -51,11 +52,11 @@ export class AuthService {
       });
   }
 
-  addContent(userId: string, content: string) {
+  addContent(content: string) {
     this.afs
       .collection('editor-content')
       .add({
-        userId: userId,
+        userId: this.userId,
         content: content,
         created: firebase.firestore.FieldValue.serverTimestamp(),
       })
@@ -64,17 +65,19 @@ export class AuthService {
       });
   }
 
-  async getLatestContent(userId: string) {
-    await this.afs
+  getLatestContent() {
+    return this.afs
       .collection('editor-content', (ref) =>
-        ref.where('userId', '==', userId).orderBy('created', 'desc').limit(1)
+        ref
+          .where('userId', '==', this.userId)
+          .orderBy('created', 'desc')
+          .limit(1)
       )
-      .valueChanges()
-      .subscribe((value) => {
-        this.latestContent = JSON.stringify(value[0]['content']);
-        console.log('this.latestContent', this.latestContent);
-      });
-
+      .valueChanges();
+    // .subscribe((value) => {
+    //   this.latestContent = JSON.stringify(value[0]['content']);
+    //   console.log('this.latestContent', this.latestContent);
+    // });
     // return this.latestContent;
   }
 }

@@ -11,7 +11,6 @@ import { AuthService } from '../services/auth.service';
 })
 export class HomeComponent implements OnInit {
   latestContent: string;
-  userId: string;
   name: string;
   content: string;
 
@@ -26,16 +25,15 @@ export class HomeComponent implements OnInit {
     const handleContentChange = () => {
       this.content = editor.getContent();
 
-      this.authService.addContent(this.userId, this.content);
+      this.authService.addContent(this.content);
     };
 
     this.getLatestContent();
-    editor.setContent(this.authService.latestContent);
+    // editor.setContent(this.authService.latestContent);
 
     this.afAuth.authState.subscribe((user) => {
       if (user) {
-        this.authService.getLatestContent(user.uid);
-        this.userId = user.uid;
+        // this.authService.getLatestContent(user.uid);
         this.name = user.displayName.split(' ')[0];
       }
     });
@@ -48,7 +46,9 @@ export class HomeComponent implements OnInit {
   }
 
   getLatestContent() {
-    this.latestContent = this.authService.latestContent;
-    return this.authService.latestContent;
+    this.authService.getLatestContent().subscribe((value) => {
+      this.latestContent = JSON.stringify(value[0]['content']);
+      console.log('this.latestContent', this.latestContent);
+    });
   }
 }
